@@ -1,0 +1,11 @@
+Changelog
+
+Alpha 0.1.0-a (04/15/2020)
+- Added input for keyboard, and mouse
+- Console will show mouse position on button click for debugging purposes
+- Added Changelog File
+
+Alpha 0.1.0  (04/14/2020)
+- Added Game Window
+- Created a thread for game engine
+- Added FPS counter
