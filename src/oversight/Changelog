@@ -1,5 +1,10 @@
 Changelog
 
+Alpha 0.1.0-a2 (04/15/2020)
+- Application now capable of modifying background color
+- Fullscreen and Window mode Capabilities (press F11)
+- Capable of receiving scroll input
+
 Alpha 0.1.0-a (04/15/2020)
 - Added input for keyboard, and mouse
 - Console will show mouse position on button click for debugging purposes

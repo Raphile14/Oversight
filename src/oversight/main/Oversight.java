@@ -44,6 +44,7 @@ public class Oversight implements Runnable {
         
         // Initialize Window
         window = new Window(WIDTH, HEIGHT, gameName + " " + version);
+        window.setBackgroundColor(1.0f, 0, 0);
         window.create();        
     }
     
@@ -61,6 +62,9 @@ public class Oversight implements Runnable {
                 System.out.println("Oversight Closed");
                 programStatus = false;
             }
+            
+            // Swap fullscreen or window
+            if (Input.isKeyDown(GLFW.GLFW_KEY_F11)) window.setFullscreen(!window.isIsFullscreen());
         }
         
         // Terminate Oversight Application/Program
@@ -75,6 +79,8 @@ public class Oversight implements Runnable {
         if (Input.isButtonDown(GLFW.GLFW_MOUSE_BUTTON_LEFT) || Input.isButtonDown(GLFW.GLFW_MOUSE_BUTTON_RIGHT)) {
             getTime();
             System.out.println("X: " + Input.getMouseX() + ", Y: " + Input.getMouseY());
+            getTime();
+            System.out.println("X: " + Input.getScrollX()+ ", Y: " + Input.getScrollY());
         }
     }
     
