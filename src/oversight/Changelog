@@ -1,5 +1,9 @@
 Changelog
 
+Alpha 0.1.0-a3 (04/15/2020)
+- Added Basic Graphics Capabilities
+- Added Basic Vertex, Mesh, and Renderer
+
 Alpha 0.1.0-a2 (04/15/2020)
 - Application now capable of modifying background color
 - Fullscreen and Window mode Capabilities (press F11)

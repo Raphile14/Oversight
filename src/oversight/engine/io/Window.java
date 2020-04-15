@@ -11,6 +11,7 @@ import org.lwjgl.glfw.GLFWWindowSizeCallback;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 import oversight.main.Oversight;
+import oversight.engine.maths.Vector3f;
 
 /**
  *
@@ -30,7 +31,7 @@ public class Window {
     public Input input;
     
     // BG Colors
-    private float backgroundR, backgroundG, backgroundB;
+    private Vector3f background = new Vector3f(0, 0, 0);
     
     // Window Size
     private GLFWWindowSizeCallback sizeCallback;
@@ -115,7 +116,7 @@ public class Window {
         }        
         
         // Set Colors
-        GL11.glClearColor(backgroundR, backgroundG, backgroundB, 1.0f);
+        GL11.glClearColor(background.getX(), background.getY(), background.getZ(), 1.0f);
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
         
         GLFW.glfwPollEvents();
@@ -149,9 +150,7 @@ public class Window {
     
     // Set Background Color
     public void setBackgroundColor(float r, float g, float b) {
-        backgroundR = r;
-        backgroundG = g;
-        backgroundB = b;
+        background.set(r, g, b);
     }
     
     // Getters and Setters

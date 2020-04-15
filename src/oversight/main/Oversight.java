@@ -8,8 +8,12 @@ package oversight.main;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.lwjgl.glfw.GLFW;
+import oversight.engine.graphics.Mesh;
+import oversight.engine.graphics.Renderer;
+import oversight.engine.graphics.Vertex;
 import oversight.engine.io.Input;
 import oversight.engine.io.Window;
+import oversight.engine.maths.Vector3f;
 
 /**
  *
@@ -23,13 +27,28 @@ public class Oversight implements Runnable {
     // Time
     SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
     
-    // Window Data
-    public Window window;
-    public final int WIDTH = 1280, HEIGHT = 720;        
-    
     // Threads
     public Thread game;
     
+    // Renderer
+    public Renderer renderer;
+    
+    // Window Data
+    public Window window;
+    public final int WIDTH = 1280, HEIGHT = 720;    
+
+    // Meshes
+    public Mesh mesh = new Mesh(new Vertex[]{
+        new Vertex(new Vector3f(-0.5f, 0.5f, 0.0f)),
+        new Vertex(new Vector3f(0.5f, 0.5f, 0.0f)),
+        new Vertex(new Vector3f(0.5f, -0.5f, 0.0f)),
+        new Vertex(new Vector3f(-0.5f, -0.5f, 0.0f))
+    }, new int[] {
+        0, 1, 2,
+        0, 3, 2
+            // 0, 3, 2
+    });
+
     // Initialize Threads
     public void start() {
         game = new Thread(this, "game");
@@ -42,10 +61,14 @@ public class Oversight implements Runnable {
     public void init() {
         System.out.println("Oversight Initializing");
         
+        // Initialize Renderer
+        renderer = new Renderer();
+        
         // Initialize Window
-        window = new Window(WIDTH, HEIGHT, gameName + " " + version);
+        window = new Window(WIDTH, HEIGHT, gameName + " " + version);                
         window.setBackgroundColor(1.0f, 0, 0);
-        window.create();        
+        window.create();    
+        mesh.create();
     }
     
     // Program Loop
@@ -86,6 +109,7 @@ public class Oversight implements Runnable {
     
     // Renders Game
     private void render() {
+        renderer.renderMesh(mesh);
         window.swapBuffers();     
     }
     
