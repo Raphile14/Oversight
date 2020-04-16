@@ -12,6 +12,7 @@ import oversight.engine.io.Input;
 import oversight.engine.io.Window;
 import oversight.engine.maths.Vector2f;
 import oversight.engine.maths.Vector3f;
+import oversight.engine.objects.GameObject;
 
 /**
  *
@@ -38,6 +39,7 @@ public class Oversight implements Runnable {
     public Window window;
     public final int WIDTH = 1280, HEIGHT = 720;    
 
+    // Transfer to individual class (entities, objects, blocks, and etc)
     // Meshes
     public Mesh mesh = new Mesh(new Vertex[]{
         new Vertex(new Vector3f(-0.5f, 0.5f, 0.0f), new Vector3f(1.0f, 0.0f, 0.0f), new Vector2f(0.5f, 0.0f)),
@@ -49,6 +51,10 @@ public class Oversight implements Runnable {
         0, 3, 2
             // 0, 3, 2
     }, new Material("/oversight/textures/me.png"));
+    
+    // Where Objects are inputted (transfer to individual classes along mesh on top)
+    // Remember to input individual objects in Update() and Render()
+    public GameObject object = new GameObject(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), mesh);
 
     // Initialize Threads
     public void start() {
@@ -105,7 +111,7 @@ public class Oversight implements Runnable {
     // Updates Game
     private void update() {
         window.update();  
-        
+        object.update();
         // Show Mouse Position on Button Click (Left or Right)
         if (Input.isButtonDown(GLFW.GLFW_MOUSE_BUTTON_LEFT) || Input.isButtonDown(GLFW.GLFW_MOUSE_BUTTON_RIGHT)) {
             getTime();
@@ -117,7 +123,7 @@ public class Oversight implements Runnable {
     
     // Renders Game
     private void render() {
-        renderer.renderMesh(mesh);
+        renderer.renderMesh(object);
         window.swapBuffers();     
     }
     

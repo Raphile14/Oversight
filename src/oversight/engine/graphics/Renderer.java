@@ -4,6 +4,8 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL30;
+import oversight.engine.maths.Matrix4f;
+import oversight.engine.objects.GameObject;
 
 /**
  *
@@ -11,35 +13,33 @@ import org.lwjgl.opengl.GL30;
  */
 public class Renderer {
     
-    private Shader shader;
-    private double temp;    
+    private Shader shader;  
     
     public Renderer(Shader shader) {
         this.shader = shader;
     }
     
-    public void renderMesh(Mesh mesh) {
-        temp += 0.02;
+    public void renderMesh(GameObject object) {
         
         // Enable/Bind
-        GL30.glBindVertexArray(mesh.getVAO());
+        GL30.glBindVertexArray(object.getMesh().getVAO());
         GL30.glEnableVertexAttribArray(0);
         GL30.glEnableVertexAttribArray(1);
         GL30.glEnableVertexAttribArray(2);
-        GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, mesh.getIBO());
+        GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, object.getMesh().getIBO());
         
         // Texture Bind
         GL13.glActiveTexture(GL13.GL_TEXTURE0);
-        GL13.glBindTexture(GL11.GL_TEXTURE_2D, mesh.getMaterial().getTextureID());
+        GL13.glBindTexture(GL11.GL_TEXTURE_2D, object.getMesh().getMaterial().getTextureID());
         
         // Shader Bind
         shader.bind();
         
-        // Scale
-        shader.setUniform("scale", (float) Math.sin(temp));
+        // Scale        
+        shader.setUniform("model", Matrix4f.transform(object.getPosition(), object.getRotation(), object.getScale()));
         
         // Draw Graphics/Elements
-        GL11.glDrawElements(GL11.GL_TRIANGLES, mesh.getIndices().length, GL11.GL_UNSIGNED_INT, 0);
+        GL11.glDrawElements(GL11.GL_TRIANGLES, object.getMesh().getIndices().length, GL11.GL_UNSIGNED_INT, 0);
         
         // Shader Unbind
         shader.unbind();

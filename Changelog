@@ -1,5 +1,12 @@
 Changelog
 
+Alpha 0.1.0-a6 (04/16/2020)
+- Translate Matrix
+- Rotation Matrix
+- Scale Matrix
+- Multiplication of Matrix
+- GameObject Class
+
 Alpha 0.1.0-a5 (04/16/2020)
 - Added Matrixes
 - Scaling Capabilities
