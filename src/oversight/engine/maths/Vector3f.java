@@ -1,13 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package oversight.engine.maths;
 
 /**
  *
- * @author Admin
+ * @author Raphael Dalangin
  */
 public class Vector3f {
     

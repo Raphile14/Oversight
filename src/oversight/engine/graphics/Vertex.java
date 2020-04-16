@@ -1,26 +1,33 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package oversight.engine.graphics;
 
+import oversight.engine.maths.Vector2f;
 import oversight.engine.maths.Vector3f;
 
 /**
  *
- * @author Admin
+ * @author Raphael Dalangin
  */
 public class Vertex {
     
-    private Vector3f position;    
+    private Vector3f position, color;    
+    private Vector2f textureCoord;
     
-    public Vertex(Vector3f position) {
+    public Vertex(Vector3f position, Vector3f color, Vector2f textureCoord) {
         this.position = position;
+        this.color = color;
+        this.textureCoord = textureCoord;
     }
     
     // Getters
     public Vector3f getPosition() {
         return position;
     }
+    
+    public Vector3f getColor() {
+        return color;
+    }
+
+    public Vector2f getTextureCoord() {
+        return textureCoord;
+    }        
 }

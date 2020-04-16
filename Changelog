@@ -1,5 +1,9 @@
 Changelog
 
+Alpha 0.1.0-a4 (04/16/2020)
+- Added Basic Shaders Capabilities
+- Added Capability to Load and Show Textures
+
 Alpha 0.1.0-a3 (04/15/2020)
 - Added Basic Graphics Capabilities
 - Added Basic Vertex, Mesh, and Renderer

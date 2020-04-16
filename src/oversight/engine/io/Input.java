@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package oversight.engine.io;
 
 import org.lwjgl.glfw.GLFW;
@@ -13,7 +8,7 @@ import org.lwjgl.glfw.GLFWScrollCallback;
 
 /**
  *
- * @author Admin
+ * @author Raphael Dalangin
  */
 public class Input {
     private static boolean[] keys = new boolean[GLFW.GLFW_KEY_LAST];   

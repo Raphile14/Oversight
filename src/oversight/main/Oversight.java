@@ -1,18 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package oversight.main;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.lwjgl.glfw.GLFW;
+import oversight.engine.graphics.Material;
 import oversight.engine.graphics.Mesh;
 import oversight.engine.graphics.Renderer;
+import oversight.engine.graphics.Shader;
 import oversight.engine.graphics.Vertex;
 import oversight.engine.io.Input;
 import oversight.engine.io.Window;
+import oversight.engine.maths.Vector2f;
 import oversight.engine.maths.Vector3f;
 
 /**
@@ -33,21 +31,24 @@ public class Oversight implements Runnable {
     // Renderer
     public Renderer renderer;
     
+    // Shaders
+    public Shader shader;
+    
     // Window Data
     public Window window;
     public final int WIDTH = 1280, HEIGHT = 720;    
 
     // Meshes
     public Mesh mesh = new Mesh(new Vertex[]{
-        new Vertex(new Vector3f(-0.5f, 0.5f, 0.0f)),
-        new Vertex(new Vector3f(0.5f, 0.5f, 0.0f)),
-        new Vertex(new Vector3f(0.5f, -0.5f, 0.0f)),
-        new Vertex(new Vector3f(-0.5f, -0.5f, 0.0f))
+        new Vertex(new Vector3f(-0.5f, 0.5f, 0.0f), new Vector3f(1.0f, 0.0f, 0.0f), new Vector2f(0.5f, 0.0f)),
+        new Vertex(new Vector3f(0.5f, 0.5f, 0.0f), new Vector3f(0.0f, 1.0f, 0.0f), new Vector2f(0.0f, 0.0f)),
+        new Vertex(new Vector3f(0.5f, -0.5f, 0.0f), new Vector3f(0.0f, 0.0f, 1.0f), new Vector2f(0.0f, 0.5f)),
+        new Vertex(new Vector3f(-0.5f, -0.5f, 0.0f), new Vector3f(1.0f, 1.0f, 0.0f), new Vector2f(0.5f, 0.5f))
     }, new int[] {
         0, 1, 2,
         0, 3, 2
             // 0, 3, 2
-    });
+    }, new Material("/oversight/textures/me.png"));
 
     // Initialize Threads
     public void start() {
@@ -61,14 +62,23 @@ public class Oversight implements Runnable {
     public void init() {
         System.out.println("Oversight Initializing");
         
+        // Initialize Shader
+        // Vertext is for position. Fragment is for color
+        shader = new Shader("/oversight/shaders/mainVertex.glsl", "/oversight/shaders/mainFragment.glsl");
+        
         // Initialize Renderer
-        renderer = new Renderer();
+        renderer = new Renderer(shader);
         
         // Initialize Window
         window = new Window(WIDTH, HEIGHT, gameName + " " + version);                
         window.setBackgroundColor(1.0f, 0, 0);
-        window.create();    
+        window.create(); 
+        
+        // Create Mesh on Screen
         mesh.create();
+        
+        // Create Shader
+        shader.create();
     }
     
     // Program Loop
@@ -89,9 +99,7 @@ public class Oversight implements Runnable {
             // Swap fullscreen or window
             if (Input.isKeyDown(GLFW.GLFW_KEY_F11)) window.setFullscreen(!window.isIsFullscreen());
         }
-        
-        // Terminate Oversight Application/Program
-        window.destroy();
+        close();
     }
     
     // Updates Game
@@ -111,6 +119,14 @@ public class Oversight implements Runnable {
     private void render() {
         renderer.renderMesh(mesh);
         window.swapBuffers();     
+    }
+    
+    // Closes/Terminates
+    private void close() {
+        // Terminate Oversight Application/Program
+        window.destroy();
+        mesh.destroy();
+        shader.destroy();        
     }
     
     public static void main (String[] args) {
