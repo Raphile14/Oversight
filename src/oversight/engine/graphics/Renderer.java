@@ -12,12 +12,15 @@ import org.lwjgl.opengl.GL30;
 public class Renderer {
     
     private Shader shader;
+    private double temp;    
     
     public Renderer(Shader shader) {
         this.shader = shader;
     }
     
     public void renderMesh(Mesh mesh) {
+        temp += 0.02;
+        
         // Enable/Bind
         GL30.glBindVertexArray(mesh.getVAO());
         GL30.glEnableVertexAttribArray(0);
@@ -31,6 +34,9 @@ public class Renderer {
         
         // Shader Bind
         shader.bind();
+        
+        // Scale
+        shader.setUniform("scale", (float) Math.sin(temp));
         
         // Draw Graphics/Elements
         GL11.glDrawElements(GL11.GL_TRIANGLES, mesh.getIndices().length, GL11.GL_UNSIGNED_INT, 0);
