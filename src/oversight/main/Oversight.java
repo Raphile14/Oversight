@@ -12,6 +12,7 @@ import oversight.engine.io.Input;
 import oversight.engine.io.Window;
 import oversight.engine.maths.Vector2f;
 import oversight.engine.maths.Vector3f;
+import oversight.engine.objects.Camera;
 import oversight.engine.objects.GameObject;
 
 /**
@@ -55,7 +56,10 @@ public class Oversight implements Runnable {
     // Where Objects are inputted (transfer to individual classes along mesh on top)
     // Remember to input individual objects in Update() and Render()
     public GameObject object = new GameObject(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), mesh);
-
+    
+    // Camera
+    public Camera camera = new Camera(new Vector3f(0, 0, 1), new Vector3f(0, 0, 0));
+    
     // Initialize Threads
     public void start() {
         game = new Thread(this, "game");
@@ -70,15 +74,15 @@ public class Oversight implements Runnable {
         
         // Initialize Shader
         // Vertext is for position. Fragment is for color
-        shader = new Shader("/oversight/shaders/mainVertex.glsl", "/oversight/shaders/mainFragment.glsl");
-        
-        // Initialize Renderer
-        renderer = new Renderer(shader);
+        shader = new Shader("/oversight/shaders/mainVertex.glsl", "/oversight/shaders/mainFragment.glsl");                   
         
         // Initialize Window
         window = new Window(WIDTH, HEIGHT, gameName + " " + version);                
         window.setBackgroundColor(1.0f, 0, 0);
         window.create(); 
+        
+        // Initialize Renderer
+        renderer = new Renderer(window, shader);    
         
         // Create Mesh on Screen
         mesh.create();
@@ -96,7 +100,7 @@ public class Oversight implements Runnable {
             render();
             
             // If user pressed escape, program is closed
-            if (Input.isKeyDown(GLFW.GLFW_KEY_ESCAPE)) {
+            if (Input.isKeyDown(GLFW.GLFW_KEY_ESCAPE) || window.shouldClose()) {
                 getTime();
                 System.out.println("Oversight Closed");
                 programStatus = false;
@@ -111,7 +115,7 @@ public class Oversight implements Runnable {
     // Updates Game
     private void update() {
         window.update();  
-        object.update();
+//        object.update();
         // Show Mouse Position on Button Click (Left or Right)
         if (Input.isButtonDown(GLFW.GLFW_MOUSE_BUTTON_LEFT) || Input.isButtonDown(GLFW.GLFW_MOUSE_BUTTON_RIGHT)) {
             getTime();
@@ -123,7 +127,7 @@ public class Oversight implements Runnable {
     
     // Renders Game
     private void render() {
-        renderer.renderMesh(object);
+        renderer.renderMesh(object, camera);
         window.swapBuffers();     
     }
     

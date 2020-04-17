@@ -5,6 +5,7 @@ import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.glfw.GLFWWindowSizeCallback;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
+import oversight.engine.maths.Matrix4f;
 import oversight.main.Oversight;
 import oversight.engine.maths.Vector3f;
 
@@ -33,11 +34,14 @@ public class Window {
     private boolean isResized;
     private boolean isFullscreen;
     private int[] windowPosX = new int[1], windowPosY = new int[1];
+    private Matrix4f projection;
     
     public Window( int width, int height, String title) {
         this.width = width;
         this.height = height;
         this.title = title;
+        // fov, aspect ratio, near, far
+        projection = Matrix4f.projection(70.0f, (float) width / (float) height, 0.1f, 1000.0f);
     }
     
     public void create() {
@@ -168,6 +172,10 @@ public class Window {
     public boolean isIsFullscreen() {
         return isFullscreen;
     }
+
+    public Matrix4f getProjectionMatrix() {
+        return projection;
+    }    
     
     public void setFullscreen(boolean isFullscreen) {
         this.isFullscreen = isFullscreen;

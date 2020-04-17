@@ -1,5 +1,10 @@
 Changelog
 
+Alpha 0.1.0-a7 (04/17/2020)
+- Projection Matrix
+- View Matrix
+- Basic Camera
+
 Alpha 0.1.0-a6 (04/16/2020)
 - Translate Matrix
 - Rotation Matrix
