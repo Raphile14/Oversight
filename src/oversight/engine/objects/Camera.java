@@ -16,7 +16,8 @@ import oversight.engine.maths.Vector3f;
 public class Camera {
     
     private Vector3f position, rotation;
-    private float moveSpeed = 0.05f, mouseSensitivity = 0.15f;
+    private float moveSpeed = 0.05f, mouseSensitivity = 0.15f, distance = 2.0f, angle = 0.0f;
+    private float horizontalAngle = 0, verticalAngle = 0;
     private double oldMouseX = 0, oldMouseY = 0, newMouseX, newMouseY;
 
     public Camera(Vector3f position, Vector3f rotation) {
@@ -24,6 +25,7 @@ public class Camera {
         this.rotation = rotation;
     }
     
+    // First Person
     public void update() {
         newMouseX = Input.getMouseX();
         newMouseY = Input.getMouseY();
@@ -43,6 +45,44 @@ public class Camera {
         float dy = (float) (newMouseY - oldMouseY);
         
         rotation = Vector3f.add(rotation, new Vector3f(-dy * mouseSensitivity, -dx * mouseSensitivity, 0));
+        oldMouseX = newMouseX;
+        oldMouseY = newMouseY;
+    }
+    
+    // Third Person
+    public void update(GameObject object) {
+        newMouseX = Input.getMouseX();
+        newMouseY = Input.getMouseY();
+        
+        // Camera Math
+        float x = (float) Math.sin(Math.toRadians(rotation.getY())) * moveSpeed;
+        float z = (float) Math.cos(Math.toRadians(rotation.getY())) * moveSpeed;        
+        
+        float dx = (float) (newMouseX - oldMouseX);
+        float dy = (float) (newMouseY - oldMouseY);
+                        
+        
+        if (Input.isButtonDown(GLFW.GLFW_MOUSE_BUTTON_LEFT)) {
+            verticalAngle -= dy * mouseSensitivity;
+            horizontalAngle += dx * mouseSensitivity;
+        }
+        if (Input.isButtonDown(GLFW.GLFW_MOUSE_BUTTON_RIGHT)) {
+            if (distance >= 0) {
+                distance += dy * mouseSensitivity / 4;
+            } else {
+                distance = 0.1f;
+            }
+        }
+        float horizontalDistance = (float) (distance * Math.cos(Math.toRadians(verticalAngle)));
+        float verticalDistance = (float) (distance * Math.sin(Math.toRadians(verticalAngle)));
+        
+        float xOffset = (float) (horizontalDistance * Math.sin(Math.toRadians(-horizontalAngle)));
+        float zOffset = (float) (horizontalDistance * Math.cos(Math.toRadians(-horizontalAngle)));
+        
+        position.set(object.getPosition().getX() + xOffset, object.getPosition().getY() - verticalDistance, object.getPosition().getZ() + zOffset);
+        
+        rotation.set(verticalAngle, -horizontalAngle, 0);
+        
         oldMouseX = newMouseX;
         oldMouseY = newMouseY;
     }

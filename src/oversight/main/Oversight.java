@@ -46,7 +46,7 @@ public class Oversight implements Runnable {
     
     // Object Data (temp)
     public GameObject object;
-    public GameObject object2;
+    public GameObject[] objects = new GameObject[500];
         
     // Transfer to individual class (entities, objects, blocks, and etc)
     // Meshes
@@ -94,12 +94,17 @@ public class Oversight implements Runnable {
         // Where Objects are inputted (transfer to individual classes along mesh on top)
         // Remember to input individual objects in Update() and Render()
         // Position, Rotation, Scale
-        // Transfer to World Gen  DONT FORGET THE RENDERER METHOD PUT WORLD GEN THERE TOO W
-        object = new GameObject(new Vector3f(0, 0, -5), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), blocks.stone.getMesh());
-        object2 = new GameObject(new Vector3f(0, 0, -2), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), blocks.stone.getMesh());
+        // Transfer to World Gen  DONT FORGET THE RENDERER METHOD PUT WORLD GEN THERE TOO 
+        object = new GameObject(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), blocks.stone.getMesh());
         
         // Create Shader
         shader.create();
+                
+        // TEST MULTIPLE BLOCKS
+        objects[0] = object;
+        for (int i = 0; i < objects.length; i++) {
+            objects[i] = new GameObject(new Vector3f((float) (Math.random() * 50 - 25), (float) (Math.random() * 50 - 25), (float) (Math.random() * 50 - 25)), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), blocks.stone.getMesh());
+        }
     }
     
     // Program Loop
@@ -131,7 +136,7 @@ public class Oversight implements Runnable {
     // Updates Game
     private void update() {
         window.update();  
-        camera.update();
+        camera.update(object);
 //        object.update();
         // Show Mouse Position on Button Click (Left or Right)
 //        if (Input.isButtonDown(GLFW.GLFW_MOUSE_BUTTON_LEFT) || Input.isButtonDown(GLFW.GLFW_MOUSE_BUTTON_RIGHT)) {
@@ -144,8 +149,10 @@ public class Oversight implements Runnable {
     
     // Renders Game
     private void render() {
+        for (int i = 0; i < objects.length; i++) {
+            renderer.renderMesh(objects[i], camera);            
+        }
         renderer.renderMesh(object, camera);
-        renderer.renderMesh(object2, camera);
         window.swapBuffers();     
     }
     

@@ -10,10 +10,11 @@ Current Controls (with corresponding actions):
 - D - Move to the right
 - Space - Jump
 - Shift - Go down
+- Mouse Left - Rotate around object
+- Mouse Right - Zoom around object
 
 Can receive (but no output)
 - Mouse Scroll
-- Mouse Click
 - Keyboard Press
 
 Developers (Katharsis):
