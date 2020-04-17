@@ -3,6 +3,7 @@ package oversight.main;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.lwjgl.glfw.GLFW;
+import oversight.GameData.InitializeBlocks;
 import oversight.engine.graphics.Material;
 import oversight.engine.graphics.Mesh;
 import oversight.engine.graphics.Renderer;
@@ -38,24 +39,26 @@ public class Oversight implements Runnable {
     
     // Window Data
     public Window window;
-    public final int WIDTH = 1280, HEIGHT = 720;    
-
+    public final int WIDTH = 1280, HEIGHT = 720;   
+    
+    // Block Data
+    public InitializeBlocks blocks;
+    
+    // Object Data (temp)
+    public GameObject object;
+    public GameObject object2;
+        
     // Transfer to individual class (entities, objects, blocks, and etc)
     // Meshes
-    public Mesh mesh = new Mesh(new Vertex[]{
-        new Vertex(new Vector3f(-0.5f, 0.5f, 0.0f), new Vector3f(1.0f, 0.0f, 0.0f), new Vector2f(0.5f, 0.0f)),
-        new Vertex(new Vector3f(0.5f, 0.5f, 0.0f), new Vector3f(0.0f, 1.0f, 0.0f), new Vector2f(0.0f, 0.0f)),
-        new Vertex(new Vector3f(0.5f, -0.5f, 0.0f), new Vector3f(0.0f, 0.0f, 1.0f), new Vector2f(0.0f, 0.5f)),
-        new Vertex(new Vector3f(-0.5f, -0.5f, 0.0f), new Vector3f(1.0f, 1.0f, 0.0f), new Vector2f(0.5f, 0.5f))
-    }, new int[] {
-        0, 1, 2,
-        0, 3, 2
-            // 0, 3, 2
-    }, new Material("/oversight/textures/me.png"));
-    
-    // Where Objects are inputted (transfer to individual classes along mesh on top)
-    // Remember to input individual objects in Update() and Render()
-    public GameObject object = new GameObject(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), mesh);
+//    public Mesh mesh = new Mesh(new Vertex[]{
+//        new Vertex(new Vector3f(-0.5f, 0.5f, 0.0f), new Vector3f(1.0f, 0.0f, 0.0f), new Vector2f(0.5f, 0.0f)),
+//        new Vertex(new Vector3f(0.5f, 0.5f, 0.0f), new Vector3f(0.0f, 1.0f, 0.0f), new Vector2f(0.0f, 0.0f)),
+//        new Vertex(new Vector3f(0.5f, -0.5f, 0.0f), new Vector3f(0.0f, 0.0f, 1.0f), new Vector2f(0.0f, 0.5f)),
+//        new Vertex(new Vector3f(-0.5f, -0.5f, 0.0f), new Vector3f(1.0f, 1.0f, 0.0f), new Vector2f(0.5f, 0.5f))
+//    }, new int[] {
+//        0, 1, 2,
+//        0, 3, 2
+//    }, new Material("/oversight/textures/me.png"));        
     
     // Camera
     public Camera camera = new Camera(new Vector3f(0, 0, 1), new Vector3f(0, 0, 0));
@@ -84,8 +87,16 @@ public class Oversight implements Runnable {
         // Initialize Renderer
         renderer = new Renderer(window, shader);    
         
-        // Create Mesh on Screen
-        mesh.create();
+        // Initialize Blocks
+        blocks = new InitializeBlocks();
+        blocks.create();
+        
+        // Where Objects are inputted (transfer to individual classes along mesh on top)
+        // Remember to input individual objects in Update() and Render()
+        // Position, Rotation, Scale
+        // Transfer to World Gen  DONT FORGET THE RENDERER METHOD PUT WORLD GEN THERE TOO W
+        object = new GameObject(new Vector3f(0, 0, -5), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), blocks.stone.getMesh());
+        object2 = new GameObject(new Vector3f(0, 0, -2), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), blocks.stone.getMesh());
         
         // Create Shader
         shader.create();
@@ -108,6 +119,11 @@ public class Oversight implements Runnable {
             
             // Swap fullscreen or window
             if (Input.isKeyDown(GLFW.GLFW_KEY_F11)) window.setFullscreen(!window.isIsFullscreen());
+            
+            // Mouse Lock
+            if (Input.isButtonDown(GLFW.GLFW_MOUSE_BUTTON_LEFT) || Input.isButtonDown(GLFW.GLFW_MOUSE_BUTTON_RIGHT)) {               
+                window.mouseState(true);
+            }
         }
         close();
     }
@@ -129,6 +145,7 @@ public class Oversight implements Runnable {
     // Renders Game
     private void render() {
         renderer.renderMesh(object, camera);
+        renderer.renderMesh(object2, camera);
         window.swapBuffers();     
     }
     
@@ -136,12 +153,14 @@ public class Oversight implements Runnable {
     private void close() {
         // Terminate Oversight Application/Program
         window.destroy();
-        mesh.destroy();
-        shader.destroy();        
+        blocks.destroy();
+        shader.destroy();           
     }
     
     public static void main (String[] args) {
-        new Oversight().start();
+        
+        // Start Application
+        new Oversight().start();        
     }
     
     // ============================== MISC ============================== //

@@ -44,20 +44,7 @@ public class Mesh {
         // Conversion for OpenGL use
         positionBuffer.put(positionData).flip();
         
-        pbo = storeData(positionBuffer, 0, 3);
-        
-        // Color Buffer (sends to GPU)
-        FloatBuffer colorBuffer = MemoryUtil.memAllocFloat(vertices.length * 3);
-        float[] colorData = new float[vertices.length * 3]; 
-        for (int i = 0; i < vertices.length; i ++) {
-            colorData[i * 3] = vertices[i].getColor().getX();
-            colorData[i * 3 + 1] = vertices[i].getColor().getY();
-            colorData[i * 3 + 2] = vertices[i].getColor().getZ();
-        }
-        // Conversion for OpenGL use
-        colorBuffer.put(colorData).flip();
-        
-        cbo = storeData(colorBuffer, 1, 3);
+        pbo = storeData(positionBuffer, 0, 3);        
         
         // Texture Buffer (sends to GPU)
         FloatBuffer textureBuffer = MemoryUtil.memAllocFloat(vertices.length * 2);
@@ -129,10 +116,6 @@ public class Mesh {
     public int getPBO() {
         return pbo;
     }
-
-    public int getCBO() {
-        return cbo;
-    }
     
     public int getTBO() {
         return tbo;
@@ -146,3 +129,20 @@ public class Mesh {
         return material;
     }
 }
+
+//        // Color Buffer (sends to GPU)
+//        FloatBuffer colorBuffer = MemoryUtil.memAllocFloat(vertices.length * 3);
+//        float[] colorData = new float[vertices.length * 3]; 
+//        for (int i = 0; i < vertices.length; i ++) {
+//            colorData[i * 3] = vertices[i].getColor().getX();
+//            colorData[i * 3 + 1] = vertices[i].getColor().getY();
+//            colorData[i * 3 + 2] = vertices[i].getColor().getZ();
+//        }
+//        // Conversion for OpenGL use
+//        colorBuffer.put(colorData).flip();
+//        
+//        cbo = storeData(colorBuffer, 1, 3);
+
+//    public int getCBO() {
+//        return cbo;
+//    }

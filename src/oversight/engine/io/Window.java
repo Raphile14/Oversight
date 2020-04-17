@@ -152,6 +152,23 @@ public class Window {
         background.set(r, g, b);
     }
     
+    // Set Fullscreen
+    public void setFullscreen(boolean isFullscreen) {
+        this.isFullscreen = isFullscreen;
+        isResized = true;
+        if (isFullscreen) {
+            GLFW.glfwGetWindowPos(window, windowPosX, windowPosY);
+            GLFW.glfwSetWindowMonitor(window, GLFW.glfwGetPrimaryMonitor(), 0, 0, width, height, 0);
+        } else {
+            GLFW.glfwSetWindowMonitor(window, 0, windowPosX[0], windowPosY[0], width, height, 0);
+        }
+    }
+    
+    // Mouse Lock
+    public void mouseState(boolean lock) {
+        GLFW.glfwSetInputMode(window, GLFW.GLFW_CURSOR, lock ? GLFW.GLFW_CURSOR_DISABLED : GLFW.GLFW_CURSOR_NORMAL);
+    }
+    
     // Getters and Setters
     public int getWidth() {
         return width;
@@ -175,16 +192,5 @@ public class Window {
 
     public Matrix4f getProjectionMatrix() {
         return projection;
-    }    
-    
-    public void setFullscreen(boolean isFullscreen) {
-        this.isFullscreen = isFullscreen;
-        isResized = true;
-        if (isFullscreen) {
-            GLFW.glfwGetWindowPos(window, windowPosX, windowPosY);
-            GLFW.glfwSetWindowMonitor(window, GLFW.glfwGetPrimaryMonitor(), 0, 0, width, height, 0);
-        } else {
-            GLFW.glfwSetWindowMonitor(window, 0, windowPosX[0], windowPosY[0], width, height, 0);
-        }
-    }
+    }            
 }

@@ -1,5 +1,11 @@
 Changelog
 
+Alpha 0.1.0-a9 (04/17/2020)
+- First Person Camera
+- Mouse Sensitivity
+- Able to load blocks
+- Basic Game Data
+
 Alpha 0.1.0-a8 (04/17/2020)
 - Camera Movement
 - WASD, Space, and Shift movement
