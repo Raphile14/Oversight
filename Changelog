@@ -1,5 +1,9 @@
 Changelog
 
+Alpha 0.1.0-a8 (04/17/2020)
+- Camera Movement
+- WASD, Space, and Shift movement
+
 Alpha 0.1.0-a7 (04/17/2020)
 - Projection Matrix
 - View Matrix

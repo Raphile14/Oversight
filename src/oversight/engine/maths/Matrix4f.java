@@ -1,5 +1,7 @@
 package oversight.engine.maths;
 
+import java.util.Arrays;
+
 /**
  *
  * @author Raphael Dalangin
@@ -136,6 +138,32 @@ public class Matrix4f {
         return result;
     }
     
+    // Hascode
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 29 * hash + Arrays.hashCode(this.elements);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Matrix4f other = (Matrix4f) obj;
+        if (!Arrays.equals(this.elements, other.elements)) {
+            return false;
+        }
+        return true;
+    }
+        
     // Getters and Setters
     public float get(int x, int y) {
         return elements[y * SIZE + x];

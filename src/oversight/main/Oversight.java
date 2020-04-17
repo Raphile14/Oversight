@@ -115,14 +115,15 @@ public class Oversight implements Runnable {
     // Updates Game
     private void update() {
         window.update();  
+        camera.update();
 //        object.update();
         // Show Mouse Position on Button Click (Left or Right)
-        if (Input.isButtonDown(GLFW.GLFW_MOUSE_BUTTON_LEFT) || Input.isButtonDown(GLFW.GLFW_MOUSE_BUTTON_RIGHT)) {
-            getTime();
-            System.out.println("X: " + Input.getMouseX() + ", Y: " + Input.getMouseY());
-            getTime();
-            System.out.println("X: " + Input.getScrollX()+ ", Y: " + Input.getScrollY());
-        }
+//        if (Input.isButtonDown(GLFW.GLFW_MOUSE_BUTTON_LEFT) || Input.isButtonDown(GLFW.GLFW_MOUSE_BUTTON_RIGHT)) {
+//            getTime();
+//            System.out.println("X: " + Input.getMouseX() + ", Y: " + Input.getMouseY());
+//            getTime();
+//            System.out.println("X: " + Input.getScrollX()+ ", Y: " + Input.getScrollY());
+//        }
     }
     
     // Renders Game
