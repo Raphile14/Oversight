@@ -41,7 +41,7 @@ public class Window {
         this.height = height;
         this.title = title;
         // fov, aspect ratio, near, far
-        projection = Matrix4f.projection(70.0f, (float) width / (float) height, 0.1f, 1000.0f);
+        projection = Matrix4f.projection(70.0f, (float) width / (float) height, 0.1f, 500.0f);
     }
     
     public void create() {

@@ -15,6 +15,7 @@ import oversight.engine.maths.Vector2f;
 import oversight.engine.maths.Vector3f;
 import oversight.engine.objects.Camera;
 import oversight.engine.objects.GameObject;
+import oversight.worlds.terrains.TerrainGenerator;
 
 /**
  *
@@ -47,6 +48,9 @@ public class Oversight implements Runnable {
     // Object Data (temp)
     public GameObject object;
     public GameObject[] objects = new GameObject[500];
+    
+    // World Generation
+    public TerrainGenerator generator;
         
     // Transfer to individual class (entities, objects, blocks, and etc)
     // Meshes
@@ -81,7 +85,7 @@ public class Oversight implements Runnable {
         
         // Initialize Window
         window = new Window(WIDTH, HEIGHT, gameName + " " + version);                
-        window.setBackgroundColor(1.0f, 0, 0);
+        window.setBackgroundColor(1.0f, 1.0f, 1.0f);
         window.create(); 
         
         // Initialize Renderer
@@ -99,12 +103,22 @@ public class Oversight implements Runnable {
         
         // Create Shader
         shader.create();
+        
+        // Generate World
+        generator = new TerrainGenerator();
+        generator.create();
+        objects = new GameObject[generator.getWorldHeightData().length];
                 
-        // TEST MULTIPLE BLOCKS
+        // TEST MULTIPLE BLOCKS 
         objects[0] = object;
-        for (int i = 0; i < objects.length; i++) {
-            objects[i] = new GameObject(new Vector3f((float) (Math.random() * 50 - 25), (float) (Math.random() * 50 - 25), (float) (Math.random() * 50 - 25)), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), blocks.stone.getMesh());
+        for (int i = 0; i < generator.getWorldHeightData().length; i++) {
+            objects[i] = new GameObject(new Vector3f(generator.getWorldHeightData()[i][0], generator.getWorldHeightData()[i][1], generator.getWorldHeightData()[i][2]), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), blocks.stone.getMesh());
+//            System.out.println(generator.getWorldHeightData()[i][0] + ", " + generator.getWorldHeightData()[i][1] + ", " + generator.getWorldHeightData()[i][2]);
         }
+        System.out.println("Lenght: " + generator.getWorldHeightData().length);
+//        for (int i = 0; i < objects.length; i++) {
+//            objects[i] = new GameObject(new Vector3f((float) Math.round(Math.random() * 50 - 25), 0, (float) Math.round(Math.random() * 50 - 25)), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), blocks.stone.getMesh());
+//        }
     }
     
     // Program Loop
@@ -136,7 +150,7 @@ public class Oversight implements Runnable {
     // Updates Game
     private void update() {
         window.update();  
-        camera.update(object);
+        camera.update();
 //        object.update();
         // Show Mouse Position on Button Click (Left or Right)
 //        if (Input.isButtonDown(GLFW.GLFW_MOUSE_BUTTON_LEFT) || Input.isButtonDown(GLFW.GLFW_MOUSE_BUTTON_RIGHT)) {
