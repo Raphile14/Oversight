@@ -15,6 +15,7 @@ import oversight.engine.maths.Vector2f;
 import oversight.engine.maths.Vector3f;
 import oversight.engine.objects.Camera;
 import oversight.engine.objects.GameObject;
+import oversight.worlds.terrains.NoiseGenerator;
 import oversight.worlds.terrains.TerrainGenerator;
 
 /**
@@ -47,9 +48,10 @@ public class Oversight implements Runnable {
     
     // Object Data (temp)
     public GameObject object;
-    public GameObject[] objects = new GameObject[900];
+    public GameObject[] objects = new GameObject[2500];
     
     // World Generation
+    public NoiseGenerator noiseGenerator;
     public TerrainGenerator generator;
         
     // Transfer to individual class (entities, objects, blocks, and etc)
@@ -105,8 +107,10 @@ public class Oversight implements Runnable {
         shader.create();
         
         // Generate World
+        noiseGenerator = new NoiseGenerator();        
+        
         generator = new TerrainGenerator();
-        generator.create();
+        generator.create(noiseGenerator);
         objects = new GameObject[generator.getWorldHeightData().length];
                 
         // TEST MULTIPLE BLOCKS 
