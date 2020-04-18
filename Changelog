@@ -6,6 +6,7 @@ Plans
 
 Alpha 0.1.0-a13 (04/18/2020)
 - Improved World Generation. Now used Perlin Noise
+- With seed
 
 Alpha 0.1.0-a12 (04/18/2020)
 - Improved World Generation

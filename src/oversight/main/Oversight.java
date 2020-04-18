@@ -107,7 +107,7 @@ public class Oversight implements Runnable {
         shader.create();
         
         // Generate World
-        noiseGenerator = new NoiseGenerator();        
+        noiseGenerator = new NoiseGenerator((double) 123);        
         
         generator = new TerrainGenerator();
         generator.create(noiseGenerator);
