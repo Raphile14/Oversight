@@ -47,7 +47,7 @@ public class Oversight implements Runnable {
     
     // Object Data (temp)
     public GameObject object;
-    public GameObject[] objects = new GameObject[500];
+    public GameObject[] objects = new GameObject[900];
     
     // World Generation
     public TerrainGenerator generator;
@@ -116,9 +116,6 @@ public class Oversight implements Runnable {
 //            System.out.println(generator.getWorldHeightData()[i][0] + ", " + generator.getWorldHeightData()[i][1] + ", " + generator.getWorldHeightData()[i][2]);
         }
         System.out.println("Lenght: " + generator.getWorldHeightData().length);
-//        for (int i = 0; i < objects.length; i++) {
-//            objects[i] = new GameObject(new Vector3f((float) Math.round(Math.random() * 50 - 25), 0, (float) Math.round(Math.random() * 50 - 25)), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), blocks.stone.getMesh());
-//        }
     }
     
     // Program Loop

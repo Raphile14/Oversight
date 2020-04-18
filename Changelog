@@ -4,6 +4,9 @@ Plans
 - Procedual Generated Worlds
 - Perlin Noise (find a way to generate then use to map heights)
 
+Alpha 0.1.0-a12 (04/18/2020)
+- Improved World Generation
+
 Alpha 0.1.0-a11 (04/18/2020)
 - Basic World Generation (10 by 10)
  
