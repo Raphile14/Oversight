@@ -123,8 +123,9 @@ public class Oversight implements Runnable {
                 
         // TEST MULTIPLE BLOCKS 
 //        objects[0] = object;
-        for (int i = 0; i < generator.getWorldHeightData().length; i++) {            
+        for (int i = 0; i < generator.getWorldHeightData().length; i++) {  
             objects[i] = new GameObject(new Vector3f(generator.getWorldHeightData()[i][0], generator.getWorldHeightData()[i][1], generator.getWorldHeightData()[i][2]), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), terrain.ground.getMesh());            
+            System.out.println(terrain.ground.getVector1());
         }
         System.out.println("Length: " + generator.getWorldHeightData().length);
     }

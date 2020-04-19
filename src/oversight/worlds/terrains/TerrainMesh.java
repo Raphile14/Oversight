@@ -60,7 +60,6 @@ public class TerrainMesh {
     }
     
     // Getters
-
     public Vector3f getVector1() {
         return vector1;
     }
