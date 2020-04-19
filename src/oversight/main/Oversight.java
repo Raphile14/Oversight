@@ -15,6 +15,7 @@ import oversight.engine.maths.Vector2f;
 import oversight.engine.maths.Vector3f;
 import oversight.engine.objects.Camera;
 import oversight.engine.objects.GameObject;
+import oversight.worlds.terrains.InitializeTerrain;
 import oversight.worlds.terrains.NoiseGenerator;
 import oversight.worlds.terrains.TerrainGenerator;
 
@@ -46,6 +47,9 @@ public class Oversight implements Runnable {
     // Block Data
     public InitializeBlocks blocks;
     
+    // Ground Data
+    public InitializeTerrain terrain;
+    
     // Object Data (temp)
     public GameObject object;
     public GameObject[] objects = new GameObject[2500];
@@ -67,7 +71,7 @@ public class Oversight implements Runnable {
 //    }, new Material("/oversight/textures/me.png"));        
     
     // Camera
-    public Camera camera = new Camera(new Vector3f(0, 0, 1), new Vector3f(0, 0, 0));
+    public Camera camera = new Camera(new Vector3f(25, 10, 25), new Vector3f(0, 0, 0));
     
     // Initialize Threads
     public void start() {
@@ -97,11 +101,15 @@ public class Oversight implements Runnable {
         blocks = new InitializeBlocks();
         blocks.create();
         
+        // Initialize Terrain
+        terrain = new InitializeTerrain();    
+        terrain.create();
+        
         // Where Objects are inputted (transfer to individual classes along mesh on top)
         // Remember to input individual objects in Update() and Render()
         // Position, Rotation, Scale
         // Transfer to World Gen  DONT FORGET THE RENDERER METHOD PUT WORLD GEN THERE TOO 
-        object = new GameObject(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), blocks.stone.getMesh());
+//        object = new GameObject(new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), blocks.stone.getMesh());
         
         // Create Shader
         shader.create();
@@ -114,12 +122,11 @@ public class Oversight implements Runnable {
         objects = new GameObject[generator.getWorldHeightData().length];
                 
         // TEST MULTIPLE BLOCKS 
-        objects[0] = object;
-        for (int i = 0; i < generator.getWorldHeightData().length; i++) {
-            objects[i] = new GameObject(new Vector3f(generator.getWorldHeightData()[i][0], generator.getWorldHeightData()[i][1], generator.getWorldHeightData()[i][2]), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), blocks.stone.getMesh());
-//            System.out.println(generator.getWorldHeightData()[i][0] + ", " + generator.getWorldHeightData()[i][1] + ", " + generator.getWorldHeightData()[i][2]);
+//        objects[0] = object;
+        for (int i = 0; i < generator.getWorldHeightData().length; i++) {            
+            objects[i] = new GameObject(new Vector3f(generator.getWorldHeightData()[i][0], generator.getWorldHeightData()[i][1], generator.getWorldHeightData()[i][2]), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), terrain.ground.getMesh());            
         }
-        System.out.println("Lenght: " + generator.getWorldHeightData().length);
+        System.out.println("Length: " + generator.getWorldHeightData().length);
     }
     
     // Program Loop
@@ -151,7 +158,7 @@ public class Oversight implements Runnable {
     // Updates Game
     private void update() {
         window.update();  
-        camera.update();
+        camera.update();        
 //        object.update();
         // Show Mouse Position on Button Click (Left or Right)
 //        if (Input.isButtonDown(GLFW.GLFW_MOUSE_BUTTON_LEFT) || Input.isButtonDown(GLFW.GLFW_MOUSE_BUTTON_RIGHT)) {
@@ -165,9 +172,9 @@ public class Oversight implements Runnable {
     // Renders Game
     private void render() {
         for (int i = 0; i < objects.length; i++) {
-            renderer.renderMesh(objects[i], camera);            
+            renderer.renderMesh(objects[i], camera);  
         }
-        renderer.renderMesh(object, camera);
+//        renderer.renderMesh(object, camera);
         window.swapBuffers();     
     }
     
@@ -176,6 +183,7 @@ public class Oversight implements Runnable {
         // Terminate Oversight Application/Program
         window.destroy();
         blocks.destroy();
+        terrain.destroy();
         shader.destroy();           
     }
     
